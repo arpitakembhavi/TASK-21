@@ -1,0 +1,164 @@
+1)
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+
+
+public class IframeExample {
+
+    public static void main(String[] args) {
+        Choose the browser 
+        EdgeDriver driver = new EdgeDriver();
+       
+        Open a new instance of the browser
+        WebDriver driver = new ChromeDriver(); 
+
+        Navigate to the URL
+        driver.get("https://the-internet.herokuapp.com/iframe");
+
+        Switch to the iframe using CSS Selector
+        WebElement iframe = driver.findElement(By.cssSelector("//iFrame[@id="content"]/div/h3"));
+        driver.switchTo().frame(iframe);
+
+        Locate the "p" tag inside the iframe and write the text "Hello People"
+        WebElement pTag = driver.findElement(By.tagName("//input[@id="content"]/div/div/div[2]/div[1]/div/div"));
+        pTag.clear();  /
+        pTag.sendKeys("Hello People");
+
+        Close the browser instance
+        driver.quit();
+    }
+
+}
+
+2)
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+
+import java.util.Set;
+
+public class NewWindowExample {
+
+    public static void main(String[] args) {
+
+        Choose the browser 
+        EdgeDriver driver = new EdgeDriver();
+        
+       
+        Navigate to the URL
+        driver.get("https://the-internet.herokuapp.com/windows");
+
+        Click the "Click Here" button to open a new window
+        WebElement clickHereButton = driver.findElement(By.linkText("Click Here"));
+        clickHereButton.click();
+
+        Switch to the newly opened window
+        String originalWindowHandle = driver.getWindowHandle();
+        Set<String> windowHandles = driver.getWindowHandles();
+        for (String windowHandle : windowHandles) {
+            if (!windowHandle.equals(originalWindowHandle)) {
+                driver.switchTo().window(windowHandle);
+                break;
+            }
+        }
+
+        Verify that the text "New Window" is present on the page
+        WebElement newWindowText = driver.findElement(By.tagName("h3"));
+        String newText = newWindowText.getText();
+        if (newText.equals("New Window")) {
+            System.out.println("Text 'New Window' is present on the page.");
+        } else {
+            System.out.println("Text 'New Window' is NOT present on the page.");
+        }
+
+        Close the new window
+        driver.close();
+
+        Verify that the original window is active
+        driver.switchTo().window(originalWindowHandle);
+
+        Close the browser instance
+        driver.quit();
+    }
+}
+
+3)
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class NestedFramesAutomation {
+
+    public static void main(String[] args) {
+        
+        Create a new instance of the Chrome driver
+        EdgeDriver driver = new EdgeDriver();
+
+        Open the URL
+        driver.get("http://the-internet.herokuapp.com/nested_frames");
+
+        Switch to the top frame
+        driver.switchTo().frame("frame-top");
+
+        Verify that there are three frames on the page
+        int frameCount = driver.findElements(By.cssSelector("frame")).size();
+        System.out.println("Number of frames: " + frameCount);
+
+        Switch to the left frame
+        driver.switchTo().frame("frame-left");
+
+        Verify that the left frame has text "LEFT"
+        WebElement leftFrameText = driver.findElement(By.tagName("body"));
+        String leftFrameTextContent = leftFrameText.getText();
+        System.out.println("Left Frame Text: " + leftFrameTextContent);
+        
+        Switch back to the top frame
+        driver.switchTo().defaultContent();
+
+        Switch to the middle frame
+        driver.switchTo().frame("frame-middle");
+
+        Verify that the middle frame has text "MIDDLE"
+        WebElement middleFrameText = driver.findElement(By.tagName("body"));
+        String middleFrameTextContent = middleFrameText.getText();
+        System.out.println("Middle Frame Text: " + middleFrameTextContent);
+
+        Switch back to the top frame
+        driver.switchTo().defaultContent();
+
+        Switch to the right frame
+        driver.switchTo().frame("frame-right");
+
+        Verify that the right frame has text "RIGHT"
+        WebElement rightFrameText = driver.findElement(By.tagName("body"));
+        String rightFrameTextContent = rightFrameText.getText();
+        System.out.println("Right Frame Text: " + rightFrameTextContent);
+
+        Switch back to the top frame
+        driver.switchTo().defaultContent();
+
+        Switch to the bottom frame
+        driver.switchTo().frame("frame-bottom");
+
+        Verify that the bottom frame has text "BOTTOM"
+        WebElement bottomFrameText = driver.findElement(By.tagName("body"));
+        String bottomFrameTextContent = bottomFrameText.getText();
+        System.out.println("Bottom Frame Text: " + bottomFrameTextContent);
+
+        Switch back to the top frame
+        driver.switchTo().defaultContent();
+
+        Verify that the page title is "Frames"
+        String pageTitle = driver.getTitle();
+        System.out.println("Page Title: " + pageTitle);
+
+        Close the browser
+        driver.quit();
+    }
+}
+
+
